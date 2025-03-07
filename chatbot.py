@@ -35,6 +35,7 @@ def main():
     dispatcher.add_handler(CommandHandler('set', set_command))
     dispatcher.add_handler(CommandHandler('get', get))
     dispatcher.add_handler(CommandHandler('delete', delete))
+    dispatcher.add_handler(CommandHandler('hello', hello))
     dispatcher.add_handler(chatgpt_handler)
 
     updater.start_polling()
@@ -91,6 +92,14 @@ def delete(update, context: CallbackContext) -> None:
         update.message.reply_text("You have deleted the keyword " + msg)
     except (IndexError, ValueError):
         update.message.reply_text("Usage: /delete <keyword>")
+
+def hello(update, context: CallbackContext) -> None:
+    logging.info(context.args)
+    try:
+        msg = context.args[0]
+        update.message.reply_text(f"Good day, {msg}!")
+    except (IndexError, ValueError):
+        update.message.reply_text("Usage: /hello <name>")
 
 def equip_chatgpt(update, context):
     global chatgpt
